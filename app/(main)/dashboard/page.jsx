@@ -11,8 +11,8 @@ import { BarLoader } from "react-spinners";
 import { usernameSchema } from "@/app/lib/validators";
 import useFetch from "@/hooks/use-fetch";
 import { updateUsername } from "@/actions/users";
-// import { getLatestUpdates } from "@/actions/dashboard";
-// import { format } from "date-fns";
+import { getLatestUpdates } from "@/actions/dashboard";
+import { format } from "date-fns";
 
 const Dashboard = () => {
 
@@ -34,6 +34,16 @@ const Dashboard = () => {
 
     const { loading, error, fn: fnUpdateUsername } = useFetch(updateUsername)
 
+    const {
+        loading: loadingUpdates,
+        data: upcomingMeetings,
+        fn: fnUpdates,
+    } = useFetch(getLatestUpdates);
+    
+    useEffect(() => {
+        (async () => await fnUpdates())();
+    }, []);
+
     const onSubmit = async (data) => {
         await fnUpdateUsername(data.username);
     };
@@ -44,6 +54,32 @@ const Dashboard = () => {
                 <CardHeader>
                     <CardTitle>Welcome, {user?.firstName}!</CardTitle>
                 </CardHeader>
+                <CardContent>
+                    {!loadingUpdates ? (
+                        <div className="space-y-6 font-light">
+                            <div>
+                                {upcomingMeetings && upcomingMeetings?.length > 0 ? (
+                                    <ul className="list-disc pl-5">
+                                        {upcomingMeetings?.map((meeting) => (
+                                            <li key={meeting.id}>
+                                                {meeting.event.title} on{" "}
+                                                {format(
+                                                    new Date(meeting.startTime),
+                                                    "MMM d, yyyy h:mm a"
+                                                )}{" "}
+                                                with {meeting.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p>No upcoming meetings</p>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <p>Loading updates...</p>
+                    )}
+                </CardContent>
             </Card>
             <Card>
                 <CardHeader>

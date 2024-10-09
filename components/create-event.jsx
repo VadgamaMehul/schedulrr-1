@@ -38,14 +38,14 @@ const CreateEventDrawer = () => {
         <Drawer open={isOpen}>
             <DrawerContent>
                 <DrawerHeader>
-                    <DrawerTitle>Create New Event</DrawerTitle>
+                    <DrawerTitle className=" text-center">Create New Event</DrawerTitle>
                 </DrawerHeader>
                 <EventForm onSubmitForm={() => {
                     handleClose();
                 }} />
                 <DrawerFooter>
                     <DrawerClose asChild>
-                        <Button variant="outline" onClick={handleClose}>Cancel</Button>
+                        <Button variant="outline" onClick={handleClose} className=" text-center mx-36">Cancel</Button>
                     </DrawerClose>
                 </DrawerFooter>
             </DrawerContent>

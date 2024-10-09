@@ -36,7 +36,7 @@ const EventForm = ({ onSubmitForm }) => {
 
     return (
         <form
-            className="px-6 flex flex-col gap-4"
+            className="flex flex-col gap-4 mx-40"
             onSubmit={handleSubmit(onSubmit)}
         >
             <div>

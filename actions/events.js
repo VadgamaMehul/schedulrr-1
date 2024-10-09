@@ -108,3 +108,5 @@ export async function getEventDetails(username, eventId) {
   
     return event;
   }
+
+  
